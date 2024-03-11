@@ -13,8 +13,10 @@ interface Message {
 
 function App() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = (messageText: string) => {
+    setIsLoading(true);
     const newMessage: Message = {
       id: Date.now(),
       text: messageText,
@@ -42,7 +44,7 @@ function App() {
 
     let totalDelay = 0;
 
-    words.forEach((word) => {
+    words.forEach((word, index) => {
       const delay = 50 + word.length * 10;
       totalDelay += delay;
 
@@ -56,6 +58,10 @@ function App() {
             return msg;
           });
         });
+
+        if (index === words.length - 1) {
+          setIsLoading(false);
+        }
       }, totalDelay);
     });
   };
@@ -105,13 +111,13 @@ function App() {
         <div className="text-center mt-2">
           <div
             className={`text-${
-              messages.length === 0 ? '[2rem]' : '[1.75rem]'
+              messages.length === 0 ? '[4rem]' : '[2rem]'
             } font-semibold`}
           >
             Eureka
           </div>
           {messages.length === 0 && (
-            <div className="text-lg mt-2">How can I help you today?</div>
+            <div className="text-xl mt-2">How can I help you today?</div>
           )}
         </div>
 
@@ -149,7 +155,7 @@ function App() {
         </div>
       </div>
       <div className="absolute bottom-0 w-full">
-        <ChatInput onSendMessage={handleSendMessage} />
+        <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>
     </div>
   );
