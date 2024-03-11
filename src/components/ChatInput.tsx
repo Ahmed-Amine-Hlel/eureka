@@ -13,6 +13,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     if (!message.trim()) return;
     onSendMessage(message);
     setMessage('');
+
+    const textarea = event.currentTarget.querySelector('textarea');
+    if (textarea) {
+      textarea.style.height = 'inherit';
+    }
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
