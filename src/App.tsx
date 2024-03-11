@@ -97,7 +97,22 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="self-center flex flex-col gap-4 flex-grow overflow-auto w-[50%] max-h-[calc(100vh-15rem)] overflow-y-auto">
+      <div
+        className={`self-center flex flex-col ${
+          messages.length === 0 ? 'justify-center' : 'justify-start'
+        } gap-4 flex-grow overflow-auto w-[50%] max-h-[calc(100vh-15rem)] overflow-y-auto`}
+      >
+        {messages.length === 0 ? (
+          <div className="text-center mt-10">
+            <div className="text-[2rem] font-semibold">Eureka</div>
+            <div className="text-lg mt-2">How can I help you today?</div>
+          </div>
+        ) : (
+          <div className="text-center mt-2">
+            <div className="text-[1.75rem] font-semibold">Eureka</div>
+          </div>
+        )}
+
         {messages.map((message) => (
           <div key={message.id}>
             <div
