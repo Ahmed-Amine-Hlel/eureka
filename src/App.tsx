@@ -114,7 +114,7 @@ function App() {
         )}
 
         {messages.map((message) => (
-          <div key={message.id}>
+          <div key={message.id} className="pr-3">
             <div
               className={`flex gap-4 items-center py-2 px-3 rounded-[0.75rem] ${
                 message.sender === 'user'
