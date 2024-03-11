@@ -1,7 +1,7 @@
 import './App.css';
 import { IoSettings } from 'react-icons/io5';
 import ChatInput from './components/ChatInput';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { BiBot } from 'react-icons/bi';
 
@@ -14,6 +14,11 @@ interface Message {
 function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleSendMessage = (messageText: string) => {
     setIsLoading(true);
@@ -109,13 +114,7 @@ function App() {
         }  w-[50%] flex-grow flex flex-col gap-4`}
       >
         <div className="text-center mt-2">
-          <div
-            className={`text-${
-              messages.length === 0 ? '[4rem]' : '[2rem]'
-            } font-semibold`}
-          >
-            Eureka
-          </div>
+          <div className="text-[3rem] font-semibold">Eureka</div>
           {messages.length === 0 && (
             <div className="text-xl mt-2">How can I help you today?</div>
           )}
@@ -152,6 +151,7 @@ function App() {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
       </div>
       <div className="absolute bottom-0 w-full">
