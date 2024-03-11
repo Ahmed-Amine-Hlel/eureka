@@ -28,27 +28,28 @@ function App() {
       sender: 'user',
     };
     setMessages([...messages, newMessage]);
+
+    const botMessageId = Date.now() + 1000000;
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: botMessageId, text: 'loading', sender: 'bot' },
+    ]);
+
     setTimeout(
       () =>
         simulateBotResponse(
-          'This is a simulated bot response for your message.'
+          'This is a simulated bot response for your message.',
+          botMessageId
         ),
-      1500
+      2000
     );
   };
 
-  const simulateBotResponse = (botMessage: string) => {
+  const simulateBotResponse = (botMessage: string, botMessageId: number) => {
     const words = botMessage.split(' ');
     let currentMessage = '';
-    const botMessageId = Date.now();
-
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { id: botMessageId, text: '', sender: 'bot' },
-    ]);
 
     let totalDelay = 0;
-
     words.forEach((word, index) => {
       const delay = 50 + word.length * 10;
       totalDelay += delay;
@@ -126,31 +127,38 @@ function App() {
           } gap-4 overflow-auto max-h-[calc(100vh-18rem)] py-8 px-3`}
         >
           {messages.map((message) => (
-            <div key={message.id}>
+            <div
+              key={message.id}
+              className={`flex gap-4 items-center py-2 px-3 rounded-[0.75rem] ${
+                message.sender === 'user'
+                  ? 'bg-gray-300 bg-opacity-40'
+                  : 'bg-transparent'
+              }`}
+            >
               <div
-                className={`flex gap-4 items-center py-2 px-3 rounded-[0.75rem] ${
-                  message.sender === 'user'
-                    ? 'bg-gray-300 bg-opacity-40'
-                    : 'bg-transparent'
+                className={`p-2 rounded-[0.75rem] ${
+                  message.sender === 'user' ? 'bg-[#872341]' : 'bg-[#346751]'
                 }`}
               >
-                <div
-                  className={`p-2 rounded-[0.75rem] ${
-                    message.sender === 'user' ? 'bg-[#872341]' : 'bg-[#346751]'
-                  }`}
-                >
-                  {message.sender === 'user' ? (
-                    <FaRegUser color="white" fontSize={'1.25rem'} />
-                  ) : (
-                    <BiBot color="white" fontSize={'1.25rem'} />
-                  )}
-                </div>
-                <div className="text-[1rem] font-semibold break-all">
-                  {message.text}
-                </div>
+                {message.sender === 'user' ? (
+                  <FaRegUser color="white" fontSize={'1.25rem'} />
+                ) : (
+                  <BiBot color="white" fontSize={'1.25rem'} />
+                )}
+              </div>
+              <div className="text-[1rem] font-semibold break-all">
+                {message.text === 'loading' ? (
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-base-content opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-base-content "></span>
+                  </span>
+                ) : (
+                  message.text
+                )}
               </div>
             </div>
           ))}
+
           <div ref={messagesEndRef} />
         </div>
       </div>

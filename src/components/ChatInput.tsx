@@ -48,7 +48,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full px-5 py-2 text-[1rem] bg-transparent focus:outline-none font-semibold placeholder:text-[0.9rem] resize-none overflow-hidden"
+            className="w-full px-5 py-2 text-[1rem] bg-transparent focus:outline-none font-semibold placeholder:text-[0.95rem] resize-none overflow-hidden"
             placeholder="Type your message here..."
             rows={1}
           />
