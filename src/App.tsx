@@ -3,10 +3,12 @@ import { IoSettings } from 'react-icons/io5';
 import ChatInput from './components/ChatInput';
 import { useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
+import { BiBot } from 'react-icons/bi';
 
 interface Message {
   id: number;
   text: string;
+  sender: 'user' | 'bot';
 }
 
 function App() {
@@ -14,11 +16,50 @@ function App() {
 
   const handleSendMessage = (messageText: string) => {
     const newMessage: Message = {
-      id: messages.length,
+      id: Date.now(),
       text: messageText,
+      sender: 'user',
     };
     setMessages([...messages, newMessage]);
+    setTimeout(
+      () =>
+        simulateBotResponse(
+          'This is a simulated bot response for your message.'
+        ),
+      1500
+    );
   };
+
+  const simulateBotResponse = (botMessage: string) => {
+    const words = botMessage.split(' ');
+    let currentMessage = '';
+    const botMessageId = Date.now();
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: botMessageId, text: '', sender: 'bot' },
+    ]);
+
+    let totalDelay = 0;
+
+    words.forEach((word) => {
+      const delay = 50 + word.length * 10;
+      totalDelay += delay;
+
+      setTimeout(() => {
+        currentMessage += `${word} `;
+        setMessages((prevMessages) => {
+          return prevMessages.map((msg) => {
+            if (msg.id === botMessageId) {
+              return { ...msg, text: currentMessage.trim() };
+            }
+            return msg;
+          });
+        });
+      }, totalDelay);
+    });
+  };
+
   return (
     <div className="drawer bg-[#F1F2F6] h-screen flex flex-col gap-4">
       <div>
@@ -49,16 +90,33 @@ function App() {
               <li>
                 <a>Sidebar Item 2</a>
               </li>
+              <li>
+                <a>Sidebar Item 3</a>
+              </li>
             </ul>
           </div>
         </div>
       </div>
-      <div className="self-center flex flex-col gap-4 flex-grow overflow-auto w-[60%] max-h-[calc(100vh-15rem)] overflow-y-auto">
+      <div className="self-center flex flex-col gap-4 flex-grow overflow-auto w-[50%] max-h-[calc(100vh-15rem)] overflow-y-auto">
         {messages.map((message) => (
-          <div key={message.id} className="">
-            <div className="flex gap-4 items-center bg-gray-400 bg-opacity-15 p-3 rounded-[1rem]">
-              <div className="p-2 bg-[#872341] rounded-[0.75rem]">
-                <FaRegUser color="white" fontSize={'1.5rem'} />
+          <div key={message.id}>
+            <div
+              className={`flex gap-4 items-center py-2 px-3 rounded-[0.75rem] ${
+                message.sender === 'user'
+                  ? 'bg-gray-300 bg-opacity-40'
+                  : 'bg-transparent'
+              }`}
+            >
+              <div
+                className={`p-2 rounded-[0.75rem] ${
+                  message.sender === 'user' ? 'bg-[#872341]' : 'bg-[#346751]'
+                }`}
+              >
+                {message.sender === 'user' ? (
+                  <FaRegUser color="white" fontSize={'1.25rem'} />
+                ) : (
+                  <BiBot color="white" fontSize={'1.25rem'} />
+                )}
               </div>
               <div className="text-[1rem] font-semibold break-all">
                 {message.text}
