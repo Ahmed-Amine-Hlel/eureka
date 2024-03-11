@@ -26,7 +26,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="flex justify-center items-center mb-12 mt-8">
+    <div className="flex justify-center items-center mb-12">
       <form onSubmit={handleSubmit} className="w-[50%]">
         <div className="flex flex-grow items-center border-[0.0625rem] border-[#222831] border-opacity-70 bg-transparent rounded-[1rem]">
           <textarea

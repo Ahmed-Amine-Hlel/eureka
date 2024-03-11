@@ -98,47 +98,55 @@ function App() {
         </div>
       </div>
       <div
-        className={`self-center flex flex-col ${
+        className={`self-center ${
           messages.length === 0 ? 'justify-center' : 'justify-start'
-        } gap-4 flex-grow overflow-auto w-[50%] max-h-[calc(100vh-15rem)] overflow-y-auto`}
+        }  w-[50%] flex-grow flex flex-col gap-4`}
       >
-        {messages.length === 0 ? (
-          <div className="text-center mt-10">
-            <div className="text-[2rem] font-semibold">Eureka</div>
+        <div className="text-center mt-2">
+          <div
+            className={`text-${
+              messages.length === 0 ? '[2rem]' : '[1.75rem]'
+            } font-semibold`}
+          >
+            Eureka
+          </div>
+          {messages.length === 0 && (
             <div className="text-lg mt-2">How can I help you today?</div>
-          </div>
-        ) : (
-          <div className="text-center mt-2">
-            <div className="text-[1.75rem] font-semibold">Eureka</div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {messages.map((message) => (
-          <div key={message.id} className="pr-3">
-            <div
-              className={`flex gap-4 items-center py-2 px-3 rounded-[0.75rem] ${
-                message.sender === 'user'
-                  ? 'bg-gray-300 bg-opacity-40'
-                  : 'bg-transparent'
-              }`}
-            >
+        <div
+          className={`flex flex-col ${
+            messages.length === 0 ? 'justify-center' : 'justify-start'
+          } gap-4 overflow-auto max-h-[calc(100vh-18rem)] py-8 px-3`}
+        >
+          {messages.map((message) => (
+            <div key={message.id}>
               <div
-                className={`p-2 rounded-[0.75rem] ${
-                  message.sender === 'user' ? 'bg-[#872341]' : 'bg-[#346751]'
+                className={`flex gap-4 items-center py-2 px-3 rounded-[0.75rem] ${
+                  message.sender === 'user'
+                    ? 'bg-gray-300 bg-opacity-40'
+                    : 'bg-transparent'
                 }`}
               >
-                {message.sender === 'user' ? (
-                  <FaRegUser color="white" fontSize={'1.25rem'} />
-                ) : (
-                  <BiBot color="white" fontSize={'1.25rem'} />
-                )}
-              </div>
-              <div className="text-[1rem] font-semibold break-all">
-                {message.text}
+                <div
+                  className={`p-2 rounded-[0.75rem] ${
+                    message.sender === 'user' ? 'bg-[#872341]' : 'bg-[#346751]'
+                  }`}
+                >
+                  {message.sender === 'user' ? (
+                    <FaRegUser color="white" fontSize={'1.25rem'} />
+                  ) : (
+                    <BiBot color="white" fontSize={'1.25rem'} />
+                  )}
+                </div>
+                <div className="text-[1rem] font-semibold break-all">
+                  {message.text}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <div className="absolute bottom-0 w-full">
         <ChatInput onSendMessage={handleSendMessage} />
