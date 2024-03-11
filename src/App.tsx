@@ -90,7 +90,7 @@ function App() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div className="menu p-8 w-80 min-h-full bg-base-200 text-base-content flex flex-col gap-6">
+          <div className="menu p-8 w-80 min-h-full bg-base-200 text-[#394e6a] flex flex-col gap-6">
             <div className="text-[2rem]">Navigation</div>
             <div className="text-[1rem] font-semibold">
               Choose an Enurka functionality
@@ -149,8 +149,8 @@ function App() {
               <div className="text-[1rem] font-semibold break-all">
                 {message.text === 'loading' ? (
                   <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-base-content opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-base-content "></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#394e6a] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#394e6a] "></span>
                   </span>
                 ) : (
                   message.text
