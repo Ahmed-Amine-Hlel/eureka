@@ -15,16 +15,22 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     setMessage('');
   };
 
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.target.style.height = 'inherit';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
   return (
     <div className="flex justify-center items-center my-8">
       <form onSubmit={handleSubmit} className="w-[60%]">
         <div className="flex flex-grow items-center border-2 border-[#222831] border-opacity-70 bg-transparent rounded-[1rem]">
-          <input
-            type="text"
+          <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full px-5 text-[1rem] bg-transparent focus:outline-none font-semibold placeholder:font-medium placeholder:text-[0.85rem]"
+            onInput={handleInput}
+            className="w-full px-5 py-2 text-[1rem] bg-transparent focus:outline-none font-semibold placeholder:font-medium placeholder:text-[0.85rem] resize-none overflow-hidden"
             placeholder="Type your message here..."
+            rows={1}
           />
           <button
             type="submit"

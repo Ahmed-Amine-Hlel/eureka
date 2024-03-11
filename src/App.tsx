@@ -1,10 +1,23 @@
 import './App.css';
 import { IoSettings } from 'react-icons/io5';
 import ChatInput from './components/ChatInput';
+import { useState } from 'react';
+import { FaRegUser } from 'react-icons/fa';
+
+interface Message {
+  id: number;
+  text: string;
+}
 
 function App() {
-  const handleSendMessage = (message: string) => {
-    console.log(message);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const handleSendMessage = (messageText: string) => {
+    const newMessage: Message = {
+      id: messages.length,
+      text: messageText,
+    };
+    setMessages([...messages, newMessage]);
   };
   return (
     <div className="drawer bg-[#F1F2F6] h-screen flex flex-col gap-4">
@@ -13,9 +26,9 @@ function App() {
         <div className="drawer-content p-6">
           <label
             htmlFor="my-drawer"
-            className="btn btn-md btn-neutral btn-circle drawer-button"
+            className="btn btn-sm btn-neutral btn-circle drawer-button"
           >
-            <IoSettings fontSize={'1.75rem'} color="#F1F2F6" />
+            <IoSettings fontSize={'1.25rem'} color="#F1F2F6" />
           </label>
         </div>
         <div className="drawer-side">
@@ -40,10 +53,23 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="self-center flex justify-center items-center flex-grow overflow-auto bg-pink-300 text-white w-[80%]">
-        chat
+      <div className="self-center flex flex-col gap-4 flex-grow overflow-auto w-[60%] max-h-[calc(100vh-15rem)] overflow-y-auto">
+        {messages.map((message) => (
+          <div key={message.id} className="">
+            <div className="flex gap-4 items-center bg-gray-400 bg-opacity-15 p-3 rounded-[1rem]">
+              <div className="p-2 bg-[#872341] rounded-[0.75rem]">
+                <FaRegUser color="white" fontSize={'1.5rem'} />
+              </div>
+              <div className="text-[1rem] font-semibold break-all">
+                {message.text}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-      <ChatInput onSendMessage={handleSendMessage} />
+      <div className="absolute bottom-0 w-full">
+        <ChatInput onSendMessage={handleSendMessage} />
+      </div>
     </div>
   );
 }
