@@ -46,16 +46,18 @@ function App() {
   };
 
   const simulateBotResponse = (botMessage: string, botMessageId: number) => {
-    const words = botMessage.split(' ');
     let currentMessage = '';
 
     let totalDelay = 0;
-    words.forEach((word, index) => {
-      const delay = 50 + word.length * 10;
+
+    const chars = botMessage.split('');
+
+    chars.forEach((char, index) => {
+      const delay = 30;
       totalDelay += delay;
 
       setTimeout(() => {
-        currentMessage += `${word} `;
+        currentMessage += char;
         setMessages((prevMessages) => {
           return prevMessages.map((msg) => {
             if (msg.id === botMessageId) {
@@ -65,7 +67,7 @@ function App() {
           });
         });
 
-        if (index === words.length - 1) {
+        if (index === chars.length - 1) {
           setIsLoading(false);
         }
       }, totalDelay);
